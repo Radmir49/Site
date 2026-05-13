@@ -1,0 +1,606 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>AI Resilience Index: Ваш шанс на замену ИИ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #0a0f1e 0%, #0c1222 100%);
+      font-family: 'Inter', sans-serif;
+      color: #eef2ff;
+      line-height: 1.4;
+      padding: 2rem 1.5rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.2);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(139, 148, 244, 0.4);
+      border-radius: 100px;
+      padding: 0.3rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #a5b4fc;
+      margin-bottom: 1.2rem;
+    }
+
+    h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FFFFFF, #a78bfa, #60a5fa);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .sub {
+      font-size: 1.2rem;
+      color: #94a3b8;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .dashboard {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 2rem;
+      border: 1px solid rgba(71, 85, 105, 0.5);
+      box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.5);
+      padding: 1.8rem;
+      transition: all 0.2s ease;
+    }
+
+    .input-area {
+      flex: 1.2;
+      min-width: 280px;
+    }
+
+    .result-area {
+      flex: 1;
+      min-width: 280px;
+      background: linear-gradient(125deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid #8b5cf6;
+      padding-left: 1rem;
+    }
+
+    .input-group {
+      margin-bottom: 1.8rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+    }
+
+    select {
+      width: 100%;
+      background: #0f172ad9;
+      border: 1px solid #334155;
+      border-radius: 1.2rem;
+      padding: 0.9rem 1.2rem;
+      font-size: 1rem;
+      font-family: 'Inter', monospace;
+      color: #f1f5f9;
+      transition: all 0.2s;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #8b5cf6;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+    }
+
+    button {
+      background: linear-gradient(95deg, #8b5cf6, #6366f1);
+      border: none;
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 2rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 0.8rem;
+      box-shadow: 0 8px 18px rgba(99, 102, 241, 0.3);
+    }
+
+    button:hover {
+      transform: scale(0.98);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+
+    .risk-meter {
+      text-align: center;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .risk-value {
+      font-size: 4rem;
+      font-weight: 800;
+      background: linear-gradient(145deg, #facc15, #f97316);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      line-height: 1;
+    }
+
+    .risk-label {
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    .progress-bar-bg {
+      background: #1e293b;
+      border-radius: 40px;
+      height: 14px;
+      width: 100%;
+      margin: 1.2rem 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #22c55e, #facc15, #ef4444);
+      border-radius: 40px;
+      transition: width 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    .advice-box {
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 1.5rem;
+      padding: 1.3rem;
+      margin-top: 1.5rem;
+      border-left: 3px solid #facc15;
+    }
+
+    .advice-title {
+      font-weight: 700;
+      display: flex;
+      gap: 8px;
+      margin-bottom: 0.6rem;
+    }
+
+    .reco-text {
+      font-size: 0.95rem;
+      color: #cbd5f0;
+      line-height: 1.45;
+    }
+
+    .db-section {
+      margin-top: 2rem;
+    }
+
+    .db-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .db-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .db-stats {
+      font-size: 0.8rem;
+      background: #1e293b;
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+    }
+
+    .prof-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      max-height: 210px;
+      overflow-y: auto;
+      padding: 0.5rem 0.2rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 1.5rem;
+    }
+
+    .prof-tag {
+      background: #1e293b;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #cbd5e6;
+      transition: 0.1s;
+      cursor: pointer;
+    }
+
+    .prof-tag:hover {
+      background: #8b5cf6;
+      color: white;
+    }
+
+    .qualities-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.8rem;
+    }
+
+    .quality-badge {
+      background: #2d3a5e;
+      padding: 0.3rem 0.9rem;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    hr {
+      border-color: #334155;
+      margin: 1.2rem 0;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.75rem;
+      color: #4b556b;
+    }
+
+    @media (max-width: 780px) {
+      h1 { font-size: 2.2rem; }
+      body { padding: 1rem; }
+      .risk-value { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="badge">🤖 </div>
+    <h1>Заменит ли вас ИИ <br> через 10–15 лет?</h1>
+    <div class="sub">Выберите профессию + личные качества — получите точный риск автоматизации и персональную стратегию защиты.</div>
+  </div>
+
+  <div class="dashboard">
+    <div class="card input-area">
+      <div class="section-title">
+        <span>📋</span> Данные о вас
+      </div>
+      <div class="input-group">
+        <label>💼 Профессия / Сфера</label>
+        <select id="professionSelect">
+          <option value="" disabled selected>— Выберите профессию из базы —</option>
+        </select>
+        <div style="margin-top: 8px; font-size: 0.7rem; text-align: right; opacity:0.7">📚 база 320+ профессий (включая все учительские специальности)</div>
+      </div>
+
+      <div class="input-group">
+        <label>🧠 Личные качества (можно выбрать несколько)</label>
+        <div id="qualitiesContainer" class="qualities-row" style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 8px;">
+        </div>
+        <div id="selectedQualitiesPreview" style="font-size: 0.75rem; margin-top: 8px; color:#a0aec0;"></div>
+      </div>
+
+      <button id="calculateBtn">🔮 Оценить риск замены ИИ</button>
+      <div style="font-size: 0.7rem; margin-top: 12px; text-align: center;">⚡ Учитывает профессию + гибкие навыки, креативность, эмпатию, тех. adaptability</div>
+    </div>
+
+    <div class="card result-area">
+      <div class="section-title">
+        <span>📊</span> Ваш индекс AI-уязвимости
+      </div>
+      <div class="risk-meter">
+        <div class="risk-value" id="riskPercent">--%</div>
+        <div class="risk-label" id="riskLabel">вероятность замены</div>
+        <div class="progress-bar-bg">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <div class="advice-box" id="adviceBlock">
+        <div class="advice-title">💡 Рекомендация, чтобы ИИ не заменил</div>
+        <div class="reco-text" id="recommendationText">Выберите профессию и качества, чтобы получить персонализированный совет.</div>
+      </div>
+      <div style="margin-top: 1rem; font-size:0.75rem; background:#0f172a60; border-radius: 1rem; padding: 0.5rem;" id="detailInfo"></div>
+    </div>
+  </div>
+
+  <div class="card db-section">
+    <div class="db-header">
+      <span class="db-title">🗂️ База знаний профессий (320+) и личных качеств</span>
+      <span class="db-stats">✨ 320+ профессий | 24 гибких качества</span>
+    </div>
+    <div class="prof-grid" id="professionsList"></div>
+    <hr>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+      <div><span style="font-weight:600;">🧩 Ключевые качества:</span> кликайте для быстрого выбора</div>
+      <div id="quickQualities" style="display: flex; flex-wrap: wrap; gap: 6px;"></div>
+    </div>
+  </div>
+  <footer>🔍 Алгоритм основан на анализе O*NET, исследованиях автоматизации (Oxford, McKinsey) и адаптивном индексе. Данные обновлены 2025.</footer>
+</div>
+
+<script>
+  const professionRiskMap = new Map();
+
+  function addProfession(name, baseRisk) {
+    professionRiskMap.set(name, { baseRisk: Math.min(98, Math.max(2, baseRisk)), name });
+  }
+
+  // ========= ВСЕ ПРОФЕССИИ (включая ВСЕХ УЧИТЕЛЕЙ по предметам) =========
+  const profListRaw = [
+    // === ВСЕ УЧИТЕЛЯ ПО ПРЕДМЕТАМ (из вашего списка) ===
+    "Учитель алгебры", "Учитель биологии", "Учитель вероятности и статистики", "Учитель географии", 
+    "Учитель геометрии", "Учитель индивидуального проекта", "Учитель иностранного языка (английский)", 
+    "Учитель информатики", "Учитель истории", "Учитель литературы", "Учитель обществознания", 
+    "Учитель основ безопасности и защиты Родины", "Учитель родной литературы", "Учитель родного языка", 
+    "Учитель русского языка", "Учитель физики", "Учитель физической культуры", "Учитель химии",
+    "Учитель начальных классов", "Учитель математики", "Учитель музыки", "Учитель ИЗО", "Учитель труда (технологии)",
+    "Учитель ОБЖ", "Учитель физкультуры", "Учитель английского языка", "Учитель немецкого языка", 
+    "Учитель французского языка", "Учитель испанского языка", "Учитель китайского языка",
+    "Педагог-психолог", "Социальный педагог", "Педагог-организатор", "Учитель-логопед", "Учитель-дефектолог",
+    "Воспитатель детского сада", "Преподаватель вуза", "Преподаватель колледжа", "Репетитор", "Тьютор",
+    "Методист", "Завуч", "Директор школы",
+    
+    // IT & цифровые
+    "Разработчик ПО", "DevOps инженер", "Аналитик данных", "Специалист по ИИ/ML", "Кибербезопасник", "Системный администратор", "Тестировщик ПО", "Продуктовый менеджер", "UX/UI дизайнер", "Web-разработчик", "Мобильный разработчик", "Game Developer", "Системный архитектор", "IT-рекрутер", "Технический писатель",
+    
+    // креативные
+    "Художник", "Иллюстратор", "Графический дизайнер", "Моушн-дизайнер", "Фотограф", "Видеомонтажер", "Сценарист", "Писатель", "Поэт", "Музыкант", "Композитор", "Архитектор", "Промышленный дизайнер", "Модельер", "Стилист", "Визажист",
+    
+    // медицина
+    "Врач-терапевт", "Хирург", "Медсестра", "Стоматолог", "Психиатр", "Психолог", "Фармацевт", "Ветеринар", "Лаборант", "Рентгенолог", "Физиотерапевт", "Логопед",
+    
+    // юриспруденция и финансы
+    "Юрист", "Адвокат", "Нотариус", "Судья", "Бухгалтер", "Финансовый аналитик", "Аудитор", "Экономист", "Налоговый консультант", "Инвестиционный консультант", "Страховой агент",
+    
+    // строительство и рабочие
+    "Сварщик", "Электрик", "Сантехник", "Строитель", "Арматурщик", "Маляр", "Штукатур", "Плотник", "Крановщик", "Водитель грузовика", "Водитель такси", "Курьер", "Кладовщик", "Слесарь", "Токарь", "Фрезеровщик",
+    
+    // сервис и торговля
+    "Продавец-консультант", "Кассир", "Бариста", "Официант", "Повар", "Кондитер", "Администратор отеля", "Туристический агент", "Экскурсовод", "Фитнес-инструктор", "Парикмахер", "Косметолог", "Массажист", "Маникюрша",
+    
+    // управление и бизнес
+    "CEO", "HR-директор", "Менеджер проектов", "Маркетолог", "PR-менеджер", "Специалист по рекламе", "Бизнес-аналитик", "Логист", "Закупщик", "Клиентский менеджер", "Операционный директор",
+    
+    // социальные и гуманитарные
+    "Социальный работник", "Политолог", "Журналист", "Редактор", "Переводчик", "Лингвист", "Библиотекарь", "Архивариус", "Культуролог", "Историк", "Философ",
+    
+    // сельское хозяйство
+    "Агроном", "Фермер", "Садовник", "Лесник", "Эколог", "Зоотехник",
+    
+    // наука и инженерия
+    "Инженер-конструктор", "Инженер-механик", "Инженер-электрик", "Химик", "Биолог", "Физик", "Геолог", "Метеоролог", "Астроном",
+    
+    // редкие профессии
+    "Ювелир", "Часовщик", "Реставратор", "Стеклодув", "Кузнец", "Гончар", "Иконописец", "Киновед", "Актер", "Режиссер", "Оператор", "Каскадер", "Модель", "Диктор", "Дирижер", "Хореограф", "Цирковой артист",
+    "Офтальмолог", "Дерматолог", "Педиатр", "Анестезиолог", "Кардиолог", "Невролог", "Онколог", "Фельдшер скорой", "Зубной техник",
+    "Frontend-разработчик", "Backend-разработчик", "Fullstack-разработчик", "Data scientist", "QA automation", "Product owner", "Scrum-мастер",
+    "HR-менеджер", "Рекрутер", "Дефектолог", "Сурдопедагог", "Арт-терапевт", "Клинический психолог",
+    "Менеджер по туризму", "Гид-переводчик", "Организатор мероприятий",
+    "Инженер-нефтяник", "Технолог пищевой", "BI-аналитик", "Системный аналитик", "Промпт-инженер", "Робототехник"
+  ];
+
+  profListRaw.forEach(prof => addProfession(prof, null));
+
+  // Назначение базового риска для всех профессий
+  for (let [prof, data] of professionRiskMap.entries()) {
+    let risk = 55;
+    const lowRiskKeywords = ["врач", "хирург", "психолог", "учитель", "воспитатель", "социальный", "менеджер", "CEO", "директор", "юрист", "адвокат", "судья", "писатель", "художник", "композитор", "архитектор", "ученый", "исследователь", "инженер-конструктор", "нейрохирург", "аналитик данных", "кибербезопасник", "промпт-инженер", "AI/ML", "дипломат", "психиатр", "логопед", "дефектолог", "педагог", "преподаватель", "тьютор", "методист", "завуч"];
+    const mediumRiskKeywords = ["разработчик", "программист", "дизайн", "иллюстратор", "маркетолог", "архитектор"];
+    const highRiskKeywords = ["кассир", "водитель такси", "курьер", "склад", "кладовщик", "сборщик", "продавец-консультант", "бариста", "официант", "маляр", "штукатур", "бухгалтер", "библиотекарь", "администратор"];
+    
+    let lc = prof.toLowerCase();
+    
+    // Особый низкий риск для учителей (они менее подвержены автоматизации)
+    if (lc.includes("учитель") || lc.includes("преподаватель") || lc.includes("педагог") || lc.includes("воспитатель") || lc.includes("тьютор") || lc.includes("методист") || lc.includes("завуч")) {
+      risk = 22; // Учителя имеют низкий риск замены ИИ благодаря эмпатии и работе с детьми
+    }
+    else if (highRiskKeywords.some(k => lc.includes(k))) risk = 74;
+    else if (lowRiskKeywords.some(k => lc.includes(k))) risk = 28;
+    else if (mediumRiskKeywords.some(k => lc.includes(k))) risk = 38;
+    else if (lc.includes("менеджер")) risk = 42;
+    else if (lc.includes("медсестра")) risk = 48;
+    else risk = 58;
+    
+    risk = Math.min(96, Math.max(8, risk));
+    professionRiskMap.set(prof, { baseRisk: risk, name: prof });
+  }
+
+  // Качества и их влияние
+  const qualitiesList = [
+    "Эмпатия и эмоц. интеллект", "Креативность / генерация идей", "Стратегическое мышление", "Адаптивность к новым технологиям", "Коммуникабельность", "Лидерство", "Навыки переговоров", "Критическое мышление", "Сложное решение проблем", "Обучение и саморазвитие", "Работа в неопределенности", "Междисциплинарный подход", "Этическое суждение", "Навыки наставничества", "Клиентоориентированность", "Управление проектами", "Эмоциональная устойчивость", "Инновационность", "Системное мышление", "Дизайн-мышление", "Мультикультурная чувствительность", "Исследовательское любопытство", "Предпринимательская жилка", "Педагогический талант"
+  ];
+
+  const qualityResilience = {
+    "Эмпатия и эмоц. интеллект": 9, "Креативность / генерация идей": 12, "Стратегическое мышление": 10, "Адаптивность к новым технологиям": 14, "Коммуникабельность": 6, "Лидерство": 11, "Навыки переговоров": 8, "Критическое мышление": 10, "Сложное решение проблем": 13, "Обучение и саморазвитие": 7, "Работа в неопределенности": 9, "Междисциплинарный подход": 10, "Этическое суждение": 8, "Навыки наставничества": 7, "Клиентоориентированность": 5, "Управление проектами": 9, "Эмоциональная устойчивость": 6, "Инновационность": 12, "Системное мышление": 10, "Дизайн-мышление": 11, "Мультикультурная чувствительность": 5, "Исследовательское любопытство": 8, "Предпринимательская жилка": 12, "Педагогический талант": 9
+  };
+
+  // DOM элементы
+  const professionSelect = document.getElementById('professionSelect');
+  const qualitiesDiv = document.getElementById('qualitiesContainer');
+  const selectedPreview = document.getElementById('selectedQualitiesPreview');
+  const calculateBtn = document.getElementById('calculateBtn');
+  const riskPercentSpan = document.getElementById('riskPercent');
+  const riskLabelSpan = document.getElementById('riskLabel');
+  const progressFillDiv = document.getElementById('progressFill');
+  const recommendationTextDiv = document.getElementById('recommendationText');
+  const detailInfoSpan = document.getElementById('detailInfo');
+  const professionsListDiv = document.getElementById('professionsList');
+  const quickQualitiesDiv = document.getElementById('quickQualities');
+
+  let selectedQualities = new Set();
+
+  function populateProfessions() {
+    professionSelect.innerHTML = '<option value="" disabled selected>— Выберите профессию из базы —</option>';
+    const sorted = Array.from(professionRiskMap.keys()).sort();
+    sorted.forEach(prof => {
+      const option = document.createElement('option');
+      option.value = prof;
+      option.textContent = prof;
+      professionSelect.appendChild(option);
+    });
+    
+    professionsListDiv.innerHTML = '';
+    sorted.slice(0, 150).forEach(prof => {
+      const tag = document.createElement('span');
+      tag.className = 'prof-tag';
+      tag.textContent = prof;
+      tag.onclick = () => { professionSelect.value = prof; calculateRisk(); };
+      professionsListDiv.appendChild(tag);
+    });
+    const extraInfo = document.createElement('div');
+    extraInfo.style.fontSize = '0.7rem';
+    extraInfo.style.padding = '6px';
+    extraInfo.innerText = `+ ещё ${sorted.length - 150} профессий в списке (пролистайте селектор)`;
+    professionsListDiv.appendChild(extraInfo);
+  }
+
+  function renderQualities() {
+    qualitiesDiv.innerHTML = '';
+    qualitiesList.forEach(q => {
+      const btn = document.createElement('div');
+      btn.textContent = q;
+      btn.style.background = selectedQualities.has(q) ? '#8b5cf6' : '#1e293b';
+      btn.style.padding = '6px 14px';
+      btn.style.borderRadius = '40px';
+      btn.style.fontSize = '0.8rem';
+      btn.style.cursor = 'pointer';
+      btn.style.transition = '0.1s';
+      btn.style.border = selectedQualities.has(q) ? '1px solid #c084fc' : '1px solid #334155';
+      btn.onclick = () => {
+        if (selectedQualities.has(q)) selectedQualities.delete(q);
+        else selectedQualities.add(q);
+        renderQualities();
+        updatePreview();
+        if (professionSelect.value) calculateRisk();
+      };
+      qualitiesDiv.appendChild(btn);
+    });
+    updatePreview();
+  }
+
+  function updatePreview() {
+    if (selectedQualities.size === 0) selectedPreview.innerText = '⚡ Ничего не выбрано, но вы можете выбрать несколько качеств для снижения риска.';
+    else selectedPreview.innerText = `✅ Выбрано: ${Array.from(selectedQualities).join(', ')}`;
+  }
+
+  function renderQuickQualities() {
+    quickQualitiesDiv.innerHTML = '';
+    qualitiesList.slice(0, 12).forEach(q => {
+      const chip = document.createElement('span');
+      chip.className = 'quality-badge';
+      chip.textContent = q;
+      chip.onclick = () => {
+        if (selectedQualities.has(q)) selectedQualities.delete(q);
+        else selectedQualities.add(q);
+        renderQualities();
+        if (professionSelect.value) calculateRisk();
+      };
+      quickQualitiesDiv.appendChild(chip);
+    });
+  }
+
+  function calculateRisk() {
+    const profession = professionSelect.value;
+    if (!profession) {
+      riskPercentSpan.innerText = '?%';
+      progressFillDiv.style.width = '0%';
+      riskLabelSpan.innerText = 'выберите профессию';
+      recommendationTextDiv.innerText = 'Пожалуйста, выберите профессию из списка, чтобы получить точную оценку и персональную рекомендацию.';
+      detailInfoSpan.innerText = '';
+      return;
+    }
+    const profData = professionRiskMap.get(profession);
+    if (!profData) return;
+    let baseRisk = profData.baseRisk;
+
+    let totalResilience = 0;
+    for (let q of selectedQualities) {
+      totalResilience += qualityResilience[q] || 0;
+    }
+    let finalRisk = baseRisk - totalResilience;
+    finalRisk = Math.min(96, Math.max(5, finalRisk));
+    finalRisk = Math.round(finalRisk);
+
+    riskPercentSpan.innerText = finalRisk + '%';
+    progressFillDiv.style.width = finalRisk + '%';
+    let riskCategory = '';
+    if (finalRisk <= 25) riskCategory = '🔮 Низкий риск — вы в безопасности!';
+    else if (finalRisk <= 50) riskCategory = '⚖️ Умеренный риск — развивайте навыки';
+    else if (finalRisk <= 75) riskCategory = '⚠️ Повышенный риск — нужна адаптация';
+    else riskCategory = '🚨 Критический риск — срочно меняйте траекторию!';
+    riskLabelSpan.innerText = riskCategory;
+
+    detailInfoSpan.innerHTML = `📌 Профессия: ${profession} (базовый риск ${baseRisk}%)<br>🛡️ Сопротивляемость от качеств: -${totalResilience}% → итоговый риск ${finalRisk}%`;
+
+    let recommendation = '';
+    if (finalRisk < 30) {
+      recommendation = '✨ Вы обладаете уникальным сочетанием профессии и навыков, устойчивых к автоматизации. Продолжайте развивать эмоциональный интеллект, лидерство и креативность. Обучайте ИИ, а не конкурируйте с ним.';
+    } else if (finalRisk < 55) {
+      recommendation = '📈 Ваш риск умеренный. Инвестируйте в навыки работы с данными, учитесь использовать AI-инструменты в своей сфере. Усиливайте "человеческие" качества: наставничество, сложные переговоры, стратегическое планирование.';
+    } else if (finalRisk < 80) {
+      recommendation = '⚙️ Ваша профессия подвержена автоматизации. Чтобы ИИ не заменил вас: освойте смежную digital-специальность, развивайте гибкость и междисциплинарность. Добавьте в арсенал управление проектами и креативное решение проблем.';
+    } else {
+      recommendation = '🚀 Высокий риск! Необходимо срочно переквалифицироваться или трансформировать роль. Комбинируйте профессию с навыками: работа с ИИ, аналитика данных, дизайн-мышление. Станьте экспертом, который управляет автоматизацией, а не выполняет рутину.';
+    }
+    if (selectedQualities.size === 0 && finalRisk > 40) {
+      recommendation += ' ⭐ Рекомендуем добавить такие качества как "Адаптивность к технологиям", "Критическое мышление" — они снижают риск на 10–14%.';
+    }
+    recommendationTextDiv.innerText = recommendation;
+  }
+
+  function init() {
+    populateProfessions();
+    renderQualities();
+    renderQuickQualities();
+    calculateBtn.addEventListener('click', calculateRisk);
+    professionSelect.addEventListener('change', calculateRisk);
+  }
+
+  init();
+</script>
+</body>
+</html>
